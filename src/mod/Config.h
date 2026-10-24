@@ -10,7 +10,9 @@ namespace clange_me {
 struct ModConfig {
     int version = 1;
     bool enabled = true;
-    std::string message = "Hello from clange_me";
+    bool syncDoors = true;
+    bool syncTrapdoors = true;
+    bool syncFenceGates = true;
 };
 
 nlohmann::json makeDefaultConfigJson();
@@ -19,16 +21,20 @@ nlohmann::json makeConfigSchemaJson();
 } // namespace clange_me
 
 template <> struct pl::config::Schema<clange_me::ModConfig> {
-    static constexpr std::string_view title = "Clange Me Config";
-    static constexpr std::string_view description = {};
+    static constexpr std::string_view title = "Double Door Sync Config";
+    static constexpr std::string_view description = "Configure block synchronization.";
 
     static constexpr FieldSchema field(std::string_view name) {
         if (name == "version")
             return {.title = "Version", .readOnly = true};
         if (name == "enabled")
-            return {.title = "Enabled", .description = "Turns clange_me behavior on or off."};
-        if (name == "message")
-            return {.title = "Message", .description = "Message written when the mod is enabled."};
+            return {.title = "Enabled", .description = "Enable or disable the plugin."};
+        if (name == "syncDoors")
+            return {.title = "Double Doors", .description = "Synchronize paired doors."};
+        if (name == "syncTrapdoors")
+            return {.title = "Double Trapdoors", .description = "Synchronize paired trapdoors."};
+        if (name == "syncFenceGates")
+            return {.title = "Double Fence Gates", .description = "Synchronize paired fence gates."};
         return {};
     }
 };
